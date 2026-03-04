@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F9F5FF"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/campoPasado"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:textColor="#757575"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/campoPrincipal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/campoPrincipal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:textSize="56sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tableLayoutNumbers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/campoPasado" />
+
+    <TableLayout
+        android:id="@+id/tableLayoutNumbers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:stretchColumns="*"
+        app:layout_constraintTop_toBottomOf="@id/campoPrincipal">
+
+        <TableRow android:layout_marginBottom="8dp">
+            <Button android:id="@+id/btn7" android:text="7" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+            <Button android:id="@+id/btn8" android:text="8" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+            <Button android:id="@+id/btn9" android:text="9" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+            <Button android:id="@+id/btnMultiplicar" android:text="*" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+        </TableRow>
+
+        <TableRow android:layout_marginBottom="8dp">
+            <Button android:id="@+id/btn4" android:text="4" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+            <Button android:id="@+id/btn5" android:text="5" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+            <Button android:id="@+id/btn6" android:text="6" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+            <Button android:id="@+id/btnRestar" android:text="-" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+        </TableRow>
+
+        <TableRow android:layout_marginBottom="8dp">
+            <Button android:id="@+id/btn1" android:text="1" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+            <Button android:id="@+id/btn2" android:text="2" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+            <Button android:id="@+id/btn3" android:text="3" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+            <Button android:id="@+id/btnSumar" android:text="+" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayoutCero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        app:layout_constraintTop_toBottomOf="@id/tableLayoutNumbers">
+        <TableRow android:layout_marginBottom="8dp">
+            <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
+            <Button android:id="@+id/btn0" android:text="0" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+            <Button android:id="@+id/btnDividir" android:text="/" style="@style/Widget.MaterialComponents.Button" android:layout_margin="4dp" app:cornerRadius="30dp"/>
+            <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tableLayoutCero">
+
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="Clear"
+            app:cornerRadius="30dp" />
+
+        <Button
+            android:id="@+id/btnEquals"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="="
+            app:cornerRadius="30dp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

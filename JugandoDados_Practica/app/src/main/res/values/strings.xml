@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">JugandoDados_Practica</string>
+    <string-array name="desplegableParImpar">
+        <item>Par</item>
+        <item>Impar</item>
+    </string-array>
+
+    <string-array name="desplegableMayorMenor7">
+        <item>Mayor o igual que 7</item>
+        <item>Menor que 7</item>
+    </string-array>
+</resources>
