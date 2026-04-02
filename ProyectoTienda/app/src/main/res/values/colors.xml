@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <!--color para botones-->
+    <color name="parfait">#c7a39b</color>
+    <color name="petalo">#e6b1c4</color>
+    <color name="rosa">#efd4dd</color>
+
+    <!--color para fondos-->
+    <color name="hueso">#F4F2EE</color>
+    <color name="rosaOscuro">#CA9EA3</color>
+
+</resources>

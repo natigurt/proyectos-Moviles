@@ -1,0 +1,6 @@
+package com.example.proyectotienda.viewmodel
+
+import androidx.lifecycle.ViewModel
+
+class MainViewModel : ViewModel() {
+}
