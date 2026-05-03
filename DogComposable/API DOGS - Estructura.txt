@@ -1,0 +1,23 @@
+﻿composables/
+* ListScreen - pantalla principal que muestra la lista de razas, observa el StateFlow del ViewModel con breeds. Navega a DetailScreen o SubBreedScreen.
+* SubBreedScreen - pantalla intermedia que lista las subrazas de una raza principal, navega a DetailScreen.
+* DetailScreen - pantalla de detalles para mostrar la foto de la raza seleccionada, recibe los parámetros de breed y subBreed (puede haber o no), observa el StateFlow del ViewModel.
+
+
+domain/
+* BreedItem - representa una raza, tiene dogName, breed y subBreeds (lista vacía)
+
+
+model/
+* BreedsResponse - mapea las respuestas de breeds/list/all. 
+* PhotosResponse - respuesta de {breed}/images o {breed}/{subBreed}/images
+* DogApiService - interfaz con los endpoints con tres métodos.
+* RetrofitApi - configura el servicio de DogApiService para llamar a los endpoints de la API.
+
+
+repository/
+* DogRepository - lógica de obtener y transformar los datos que vienen de la API.
+
+
+viewmodel/
+* BreedsViewModel - gestiona el estado de la interfaz y lógica de negocio. Es el puente entre el repositorio y las pantallas compose.
