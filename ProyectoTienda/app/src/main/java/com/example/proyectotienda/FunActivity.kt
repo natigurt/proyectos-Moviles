@@ -1,5 +1,6 @@
 package com.example.proyectotienda
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.proyectotienda.databinding.ActivityFunBinding
+import com.example.proyectotienda.fragments.HomeFragment
 import com.google.android.material.tabs.TabLayout
 
 class FunActivity : AppCompatActivity() {
@@ -15,6 +17,7 @@ class FunActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding = ActivityFunBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
@@ -26,10 +29,7 @@ class FunActivity : AppCompatActivity() {
         }
 
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "Home"
-
         binding.tabLayout.removeAllTabs()
-
         val iconos = listOf(R.drawable.home, R.drawable.products, R.drawable.cesta)
 
         for (i in iconos.indices) {
@@ -44,10 +44,19 @@ class FunActivity : AppCompatActivity() {
             binding.tabLayout.addTab(tab);
         }
 
+        //abrir el home tan solo empezar
+        if (savedInstanceState == null) {
+            supportActionBar?.title = "Home"
+            cambiarFragmento(HomeFragment())
+        }
+
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
-                    0 -> supportActionBar?.title = "Home"
+                    0 -> {
+                        supportActionBar?.title = "Home"
+                        cambiarFragmento(HomeFragment()) // WebView incluido
+                    }
                     1 -> supportActionBar?.title = "Productos"
                     2 -> supportActionBar?.title = "Mi carrito"
                 }
@@ -56,4 +65,12 @@ class FunActivity : AppCompatActivity() {
             override fun onTabReselected(p0: TabLayout.Tab?) {}
         })
     }
+
+
+    private fun cambiarFragmento(fragmento: androidx.fragment.app.Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.contenedor_fragmentos, fragmento) // Usa el ID del FrameLayout de tu XML
+            .commit()
+    }
+
 }

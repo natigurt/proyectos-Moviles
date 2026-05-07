@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.example.proyectotienda.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,8 +36,15 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val root = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val webView = root.findViewById<WebView>(R.id.wvTienda)
+
+        webView.settings.javaScriptEnabled = true
+        webView.webViewClient = WebViewClient()
+
+        webView.loadUrl("http://10.0.2.2:8080")
+        return root
     }
 
     companion object {

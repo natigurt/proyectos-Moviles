@@ -6,6 +6,7 @@
     tools:context=".fragments.HomeFragment">
 
     <WebView
+        android:id="@+id/wvTienda"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/hueso"/>
