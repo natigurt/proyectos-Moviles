@@ -7,8 +7,8 @@ import retrofit2.Response
 
 class AuthRepository {
 
-    suspend fun login(username: String, password: String): Response<LoginResponse> {
-        return RetrofitApi.apiService.login(LoginRequest(username, password))
+    suspend fun login(email: String, password: String): Response<LoginResponse> {
+        return RetrofitApi.apiService.login(LoginRequest(email, password))
     }
 
 }
