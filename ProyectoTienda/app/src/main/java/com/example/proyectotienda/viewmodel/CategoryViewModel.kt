@@ -6,18 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyectotienda.api.RetrofitApi
 import com.example.proyectotienda.model.Category
-import com.example.proyectotienda.model.Product
-import com.example.proyectotienda.repository.ProductRepository
+import com.example.proyectotienda.repository.CategoryRepository
 import kotlinx.coroutines.launch
 
-class ProductsViewModel(
-    private val repository: ProductRepository = ProductRepository(RetrofitApi.apiService)
+class CategoryViewModel(
+    private val repository: CategoryRepository = CategoryRepository(RetrofitApi.apiService)
 ) : ViewModel() {
     private val _categories = MutableLiveData<List<Category>>()
     val categories: LiveData<List<Category>> = _categories
-
-    private val _products = MutableLiveData<List<Product>>()
-    val products: LiveData<List<Product>> = _products
 
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
@@ -30,18 +26,6 @@ class ProductsViewModel(
             } catch (e: Exception) {
                 _errorMessage.value = "Error al cargar categorías: ${e.message}"
                 _categories.value = emptyList()
-            }
-        }
-    }
-
-    fun loadProductsByCategory(token: String, categoryId: Long) {
-        viewModelScope.launch {
-            try {
-                val list = repository.getProductsByCategory(token, categoryId)
-                _products.value = list
-            } catch (e: Exception) {
-                _errorMessage.value = "Error al cargar productos: ${e.message}"
-                _products.value = emptyList()
             }
         }
     }

@@ -1,6 +1,6 @@
 package com.example.proyectotienda.model
 
 data class LoginRequest(
-    val email: String,
+    val username: String,
     val password: String
 )

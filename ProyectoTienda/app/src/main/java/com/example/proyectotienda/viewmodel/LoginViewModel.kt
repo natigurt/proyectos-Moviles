@@ -14,11 +14,11 @@ class LoginViewModel : ViewModel() {
     val error = MutableLiveData<String>();
     val isLoading = MutableLiveData(false)
 
-    fun login(username: String, password: String) {
+    fun login(email: String, password: String) {
         isLoading.value = true;
         viewModelScope.launch {
             try {
-                val response = repository.login(username, password)
+                val response = repository.login(email, password)
                 if (response.isSuccessful && response.body() != null) {
                     loginResult.value = response.body()
                 } else {

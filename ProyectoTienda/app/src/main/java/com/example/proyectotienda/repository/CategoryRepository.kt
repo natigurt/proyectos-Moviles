@@ -4,7 +4,7 @@ import com.example.proyectotienda.api.ApiService
 import com.example.proyectotienda.model.Category
 import com.example.proyectotienda.model.Product
 
-class ProductRepository(private val apiService: ApiService) {
+class CategoryRepository (private val apiService: ApiService) {
 
     suspend fun getCategories(token: String): List<Category> {
         return apiService.getCategories("Bearer $token")
@@ -13,4 +13,5 @@ class ProductRepository(private val apiService: ApiService) {
     suspend fun getProductsByCategory(token: String, categoryId: Long): List<Product> {
         return apiService.getProductsByCategory("Bearer $token", categoryId)
     }
+
 }

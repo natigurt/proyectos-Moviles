@@ -9,5 +9,5 @@ data class Product(
     val price: Double,
     val discount: Int,
     val stock: Int,
-    //marca y categoria?
+    val categories: List<Category>?
 )

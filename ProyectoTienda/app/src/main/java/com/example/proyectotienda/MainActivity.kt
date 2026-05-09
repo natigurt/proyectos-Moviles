@@ -1,5 +1,6 @@
 package com.example.proyectotienda
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -35,21 +36,29 @@ class MainActivity : AppCompatActivity() {
                 loginViewModel.login(usuario, password)
             } else {
                 Toast.makeText(
-                    this, "Introduce el nombre de usuario y la contraseña",
+                    this, "Introduce el email y la contraseña!",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }
 
         //observamos el resultado de login
-        loginViewModel.loginResult.observe(this) { loginResponse ->
-            if (loginResponse != null) {
-                val token = loginResponse.accessToken
-                val intent = Intent(this, FunActivity::class.java)
-                intent.putExtra("ACCESS_TOKEN", token)
-                intent.putExtra("USERNAME", binding.editUsername.text.toString().trim())
+        loginViewModel.loginResult.observe(this) { result ->
+            if (result != null && result.accessToken.isNotEmpty()) {
+                // Guardar token
+                val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+                prefs.edit().putString("token", result.accessToken).apply()
+
+                // Pasar a la siguiente actividad
+                val intent = Intent(this, FunActivity::class.java).apply {
+                    putExtra("ACCESS_TOKEN", result.accessToken)
+                    putExtra("USERNAME", binding.editUsername.text.toString().trim())
+                }
                 startActivity(intent)
                 finish()
+            } else if (result == null) {
+                // Mostrar error
+                Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
             }
         }
 

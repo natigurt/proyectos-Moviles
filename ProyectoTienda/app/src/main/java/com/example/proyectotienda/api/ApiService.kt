@@ -1,8 +1,9 @@
 package com.example.proyectotienda.api
 
+import com.example.proyectotienda.model.Category
 import com.example.proyectotienda.model.LoginRequest
 import com.example.proyectotienda.model.LoginResponse
-import com.example.proyectotienda.model.ProductPag
+import com.example.proyectotienda.model.Product
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -17,13 +18,19 @@ interface ApiService {
     @POST("api/v1/auth/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
-    //conseguir productitos
-    @GET("api/v1/products")
-    suspend fun getProducts(
-        @Header("Authorization") token: String,
-        @Query("page") page: Int,
-        @Query("size") size: Int
-    ): ProductPag
+    //conseguir categorias
+    @GET("api/v1/categories")
+    suspend fun getCategories(
+        @Header("Authorization") token: String
+    ): List<Category>
 
+    //conseguir los productos de esas categorias.
+    @GET("api/v1/categories/{categoryId}/products")
+    suspend fun getProductsByCategory(
+        @Header("Authorization") token: String,
+        @Path("categoryId") categoryId: Long
+    ): List<Product>
 }
+
+
 
