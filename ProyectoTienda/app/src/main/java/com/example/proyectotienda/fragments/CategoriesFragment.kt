@@ -8,16 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import com.example.proyectotienda.FunActivity
+import com.example.proyectotienda.R
 import com.example.proyectotienda.databinding.FragmentCategoriesBinding
 import com.example.proyectotienda.recycler.CategoriesAdapter
-import com.example.proyectotienda.viewmodel.ProductsViewModel
+import com.example.proyectotienda.viewmodel.CategoryViewModel
+import kotlin.apply
 
 class CategoriesFragment : Fragment() {
 
     private var _binding: FragmentCategoriesBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ProductsViewModel by viewModels()
+    private val viewModel: CategoryViewModel by viewModels()
     private lateinit var adapter: CategoriesAdapter
 
     //para crear la vista del frag
@@ -34,8 +35,8 @@ class CategoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecyclerView()
-        observeViewModel()
+        configRecyclerView()
+        configObservadorViewModel()
 
         val token = obtenerToken()
         if (token.isNotEmpty()) {
@@ -45,27 +46,37 @@ class CategoriesFragment : Fragment() {
         }
     }
 
-    //configurar el recycler (es este el lugar para hacerlo?)
-    private fun setupRecyclerView() {
-        // inicializar el adaptador con una lista vacía
+    //configurar el recycler
+    private fun configRecyclerView() {
+        //inicializar el adaptador
         adapter = CategoriesAdapter(emptyList()) { category ->
-            // instancia de ProductsFragment pasando el id de la categoría seleccionada
-            val fragmentoProductos = ProductsFragment.newInstance(category.id)
-            // cambiar al fragmento de productos (revisar si hay otra manera de hacerlo)
-            (requireActivity() as FunActivity).cambiarFragmento(fragmentoProductos)
+            //al hacer click en una categoria..
+            val fragmentoProductos = ProductsFragment().apply {
+                //*recordatorio = bundle es como un contenedor de datos clave-valor
+                // para la info entre componentes.
+                arguments = Bundle().apply {
+                    putLong("categoryId", category.id)
+                }
+            }
+            //cambiar de fragmento a los productos
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.contenedor_fragmentos, fragmentoProductos)
+                .addToBackStack(null)
+                .commit()
         }
+        //asignar el adaptador al recycler
         binding.recyclerCategories.adapter = adapter
     }
 
     //observar viewModel
-    private fun observeViewModel() {
+    private fun configObservadorViewModel() {
         viewModel.categories.observe(viewLifecycleOwner) { categories ->
             adapter.actualizarCategorias(categories)
         }
-        //observar errores
+        //observar errores y si hay un error..
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-            error?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            if (error != null) {
+                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -80,4 +91,5 @@ class CategoriesFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

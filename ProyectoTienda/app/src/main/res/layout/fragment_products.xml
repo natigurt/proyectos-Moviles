@@ -17,4 +17,13 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_product" />
 
+    <TextView
+        android:id="@+id/tvEmptyProducts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="No hay productos en esta categoría"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

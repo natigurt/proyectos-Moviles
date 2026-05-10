@@ -30,6 +30,14 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("categoryId") categoryId: Long
     ): List<Product>
+
+    //conseguir detalle producto
+    @GET("api/v1/products/{productId}")
+    suspend fun getProductById(
+        @Header("Authorization") token: String,
+        @Path("productId") productId: Long
+    ): Product
+
 }
 
 

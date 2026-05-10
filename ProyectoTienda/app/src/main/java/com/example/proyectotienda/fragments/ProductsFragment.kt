@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.example.proyectotienda.R
 import com.example.proyectotienda.databinding.FragmentProductsBinding
 import com.example.proyectotienda.recycler.ProductsAdapter
 import com.example.proyectotienda.viewmodel.ProductsViewModel
@@ -24,9 +25,8 @@ class ProductsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            categoryId = it.getLong(ARG_CATEGORY_ID)
-        }
+        //obtener el id de la categoria, si es nulo usa -1
+        categoryId = arguments?.getLong("categoryId", -1) ?: -1
     }
 
     override fun onCreateView(
@@ -39,9 +39,8 @@ class ProductsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupRecyclerView()
-        observeViewModel()
+        configRecyclerView()
+        configObservadorViewModel()
 
         val token = obtenerToken()
         if (token.isNotEmpty() && categoryId != -1L) {
@@ -49,21 +48,44 @@ class ProductsFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerView() {
+    private fun configRecyclerView() {
+        //inicializar el adaptador
         adapter = ProductsAdapter(emptyList()) { product ->
+            //al hacer click en una categoria..
             Toast.makeText(requireContext(), "Producto: ${product.name}", Toast.LENGTH_SHORT).show()
+            val detalleFragment = ProductDetailFragment().apply {
+                //*recordatorio = bundle es como un contenedor de datos clave-valor
+                // para la info entre componentes.
+                arguments = Bundle().apply {
+                    putLong("productId", product.id)
+                }
+            }
+            //cambiar fragmento al detalle productos
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.contenedor_fragmentos, detalleFragment)
+                .addToBackStack(null)
+                .commit()
         }
+        //asignar el adaptador al recycler.
         binding.recyclerProducts.adapter = adapter
     }
 
-    private fun observeViewModel() {
+    private fun configObservadorViewModel() {
         viewModel.products.observe(viewLifecycleOwner) { products ->
-            adapter.actualizarProductos(products)
+            //si no hay productos..
+            if (products.isNullOrEmpty()) {
+                binding.recyclerProducts.visibility = View.GONE
+                binding.tvEmptyProducts.visibility = View.VISIBLE
+            } else {
+                binding.recyclerProducts.visibility = View.VISIBLE
+                binding.tvEmptyProducts.visibility = View.GONE
+                adapter.actualizarProductos(products)
+            }
         }
-
+        //observar errores y si hay un error..
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-            error?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            if (error != null) {
+                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -78,15 +100,4 @@ class ProductsFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
-        private const val ARG_CATEGORY_ID = "category_id"
-
-        @JvmStatic
-        fun newInstance(categoryId: Long) =
-            ProductsFragment().apply {
-                arguments = Bundle().apply {
-                    putLong(ARG_CATEGORY_ID, categoryId)
-                }
-            }
-    }
 }

@@ -9,6 +9,7 @@ import com.example.proyectotienda.model.Category
 import com.example.proyectotienda.repository.CategoryRepository
 import kotlinx.coroutines.launch
 
+//logica de negocio a la hora de utilizar la api
 class CategoryViewModel(
     private val repository: CategoryRepository = CategoryRepository(RetrofitApi.apiService)
 ) : ViewModel() {

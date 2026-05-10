@@ -46,7 +46,7 @@ class FunActivity : AppCompatActivity() {
             binding.tabLayout.addTab(tab);
         }
 
-        //abrir el home tan solo empezar
+        //abrir el home tan solo empezar y posicionar el title en Nombre del usuario (fullName) y el icono de salir
         if (savedInstanceState == null) {
             supportActionBar?.title = "Home"
             cambiarFragmento(HomeFragment())
@@ -73,10 +73,10 @@ class FunActivity : AppCompatActivity() {
     }
 
 
-    //esta logica de cambiar fragmento debe estar en algun viewmodel
+    //esta logica cambia fragmento
     fun cambiarFragmento(fragmento: androidx.fragment.app.Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.contenedor_fragmentos, fragmento) // Usa el ID del FrameLayout de tu XML
+            .replace(R.id.contenedor_fragmentos, fragmento)
             .commit()
     }
 

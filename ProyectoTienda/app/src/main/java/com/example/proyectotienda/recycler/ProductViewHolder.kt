@@ -14,10 +14,8 @@ class ProductViewHolder(private val binding: ItemProductBinding) :
         binding.txtProductDescription.text = producto.description
         binding.txtProductPrice.text = "${producto.price} €"
 
-        Glide.with(binding.imgProduct.context)
+      /*  Glide.with(binding.imgProduct.context)
             .load(producto.image)
-            .placeholder(R.drawable.products)
-            .error(R.drawable.products)
-            .into(binding.imgProduct)
+            .placeholder(R.drawable.products) */
     }
 }

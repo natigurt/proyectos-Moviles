@@ -1,7 +1,7 @@
 package com.example.proyectotienda.model
 
 data class Product(
-    val id: Long?,
+    val id: Long,
     val productCode: String,
     val name: String,
     val description: String,

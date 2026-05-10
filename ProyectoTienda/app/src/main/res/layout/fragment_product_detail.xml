@@ -12,26 +12,15 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/img_detail_product"
-            android:layout_width="0dp"
-            android:layout_height="300dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/products" />
-
         <TextView
             android:id="@+id/txt_detail_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_detail_product"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Nombre del Producto" />
 
         <TextView
@@ -44,17 +33,7 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_detail_name"
-            tools:text="99.99 €" />
-
-        <TextView
-            android:id="@+id/txt_detail_stock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txt_detail_name"
-            tools:text="Stock: 10" />
+            tools:text="12.13 €" />
 
         <TextView
             android:id="@+id/txt_detail_description_label"
@@ -75,7 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_detail_description_label"
-            tools:text="Esta es una descripción detallada del producto que puede ocupar varias líneas para que el usuario sepa qué está comprando." />
+            tools:text="Esta es una descripción del producto blablablablablablablablablablablablablablabalbalaba." />
 
         <Button
             android:id="@+id/btn_add_to_cart"
@@ -83,6 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Añadir al carrito"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/petalo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_detail_description" />

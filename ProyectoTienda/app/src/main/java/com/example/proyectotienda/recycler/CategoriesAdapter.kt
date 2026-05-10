@@ -26,7 +26,7 @@ class CategoriesAdapter(
         // pintamos los datos de la categoría usando el viewholder
         holder.bind(categoria)
 
-        // Manejamos el click en la fila
+        // cuando se clickea en una fila..
         holder.itemView.setOnClickListener {
             onCategoryClick(categoria)
             //que lleve a otro fragment, donde se encuentran los productos de esa categoria.
@@ -35,6 +35,7 @@ class CategoriesAdapter(
 
     override fun getItemCount(): Int = listaCategorias.size
 
+    //sustituir por la lista que trae la api!
     fun actualizarCategorias(nuevaLista: List<Category>) {
         this.listaCategorias = nuevaLista
         notifyDataSetChanged()

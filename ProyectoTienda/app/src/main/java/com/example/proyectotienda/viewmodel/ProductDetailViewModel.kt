@@ -9,22 +9,22 @@ import com.example.proyectotienda.model.Product
 import com.example.proyectotienda.repository.ProductRepository
 import kotlinx.coroutines.launch
 
-class ProductsViewModel(
+class ProductDetailViewModel(
     private val repository: ProductRepository = ProductRepository(RetrofitApi.apiService)
 ) : ViewModel() {
-    private val _products = MutableLiveData<List<Product>>()
-    val products: LiveData<List<Product>> = _products
+    private val _productDetail = MutableLiveData<Product?>()
+    val productDetail: LiveData<Product?> = _productDetail
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
 
-    fun loadProductsByCategory(token: String, categoryId: Long) {
+    fun loadProductDetail(token: String, productId: Long) {
         viewModelScope.launch {
             try {
-                val list = repository.getProductsByCategory(token, categoryId)
-                _products.value = list
+                val product = repository.getProductById(token, productId)
+                _productDetail.value = product
             } catch (e: Exception) {
-                _errorMessage.value = "Error al cargar productos: ${e.message}"
-                _products.value = emptyList()
+                _errorMessage.value = "Error al cargar detalle: ${e.message}"
+                _productDetail.value = null
             }
         }
     }
