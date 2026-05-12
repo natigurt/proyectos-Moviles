@@ -6,10 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.proyectotienda.R
 import com.example.proyectotienda.databinding.FragmentProductsBinding
+import com.example.proyectotienda.model.Category
 import com.example.proyectotienda.recycler.ProductsAdapter
 import com.example.proyectotienda.viewmodel.ProductsViewModel
 
@@ -20,14 +23,8 @@ class ProductsFragment : Fragment() {
 
     private val viewModel: ProductsViewModel by viewModels()
     private lateinit var adapter: ProductsAdapter
-
-    private var categoryId: Long = -1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //obtener el id de la categoria, si es nulo usa -1
-        categoryId = arguments?.getLong("categoryId", -1) ?: -1
-    }
+    
+    private var categoriesList: List<Category> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,54 +36,89 @@ class ProductsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
         configRecyclerView()
         configObservadorViewModel()
-
+        desplegableCategorias()
+        
         val token = obtenerToken()
-        if (token.isNotEmpty() && categoryId != -1L) {
-            viewModel.loadProductsByCategory(token, categoryId)
+        if (token.isNotEmpty()) {
+            viewModel.loadCategories(token)
+            viewModel.loadAllProducts(token)
+        } else {
+            Toast.makeText(requireContext(), "No hay sesión activa", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun configRecyclerView() {
-        //inicializar el adaptador
         adapter = ProductsAdapter(emptyList()) { product ->
-            //al hacer click en una categoria..
-            Toast.makeText(requireContext(), "Producto: ${product.name}", Toast.LENGTH_SHORT).show()
             val detalleFragment = ProductDetailFragment().apply {
-                //*recordatorio = bundle es como un contenedor de datos clave-valor
-                // para la info entre componentes.
                 arguments = Bundle().apply {
                     putLong("productId", product.id)
                 }
             }
-            //cambiar fragmento al detalle productos
+            // reemplazar el fragmento actual por el fragmento del detalle
             parentFragmentManager.beginTransaction()
                 .replace(R.id.contenedor_fragmentos, detalleFragment)
                 .addToBackStack(null)
                 .commit()
         }
-        //asignar el adaptador al recycler.
         binding.recyclerProducts.adapter = adapter
     }
 
     private fun configObservadorViewModel() {
         viewModel.products.observe(viewLifecycleOwner) { products ->
-            //si no hay productos..
+            //si no hay productos, mostramos un mensaje
             if (products.isNullOrEmpty()) {
                 binding.recyclerProducts.visibility = View.GONE
                 binding.tvEmptyProducts.visibility = View.VISIBLE
             } else {
+                //si hay productos, mostramos la lista
                 binding.recyclerProducts.visibility = View.VISIBLE
                 binding.tvEmptyProducts.visibility = View.GONE
-                adapter.actualizarProductos(products)
+                adapter.updateProducts(products)
             }
         }
-        //observar errores y si hay un error..
+
+        //escuchamos las livedata categories
+        viewModel.categories.observe(viewLifecycleOwner) { categories ->
+            //si las categorias estan vacias, las rellenamos
+            if (!categories.isNullOrEmpty()) {
+                this.categoriesList = categories
+                val categorias = categories.map { it.name }
+                
+                val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categorias)
+                binding.spinnerCategories.adapter = spinnerAdapter
+            }
+        }
+
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             if (error != null) {
                 Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    //desplegable de categorias
+    private fun desplegableCategorias() {
+        binding.spinnerCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            //cuando el usuario selecciona una categoria
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val token = obtenerToken()
+                // si no hay token o no hay categorias, no hacemos nada
+                if (token.isEmpty() || categoriesList.isEmpty()) return
+                // si no hay categorias, no hacemos nada
+                val selectedCategory = categoriesList[position]
+                if (selectedCategory.id == -1L) {
+                    // ID -1 = "Todos los productos"
+                    viewModel.loadAllProducts(token)
+                } else {
+                    // cargar productos de la categoria seleccionada
+                    viewModel.loadProductsByCategory(token, selectedCategory.id)
+                }
+            }
+            // cuando no hay nada seleccionado (object)
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
@@ -99,5 +131,4 @@ class ProductsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

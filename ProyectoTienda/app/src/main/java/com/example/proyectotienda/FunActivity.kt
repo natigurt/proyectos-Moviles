@@ -8,8 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.proyectotienda.databinding.ActivityFunBinding
-import com.example.proyectotienda.fragments.CategoriesFragment
+import com.example.proyectotienda.fragments.CartFragment
 import com.example.proyectotienda.fragments.HomeFragment
+import com.example.proyectotienda.fragments.ProductsFragment
 import com.google.android.material.tabs.TabLayout
 
 class FunActivity : AppCompatActivity() {
@@ -61,10 +62,14 @@ class FunActivity : AppCompatActivity() {
                         cambiarFragmento(HomeFragment())
                     }
                     1 -> {
-                        supportActionBar?.title = "Categorias"
-                        cambiarFragmento(CategoriesFragment())
+                        supportActionBar?.title = "Productos"
+                        cambiarFragmento(ProductsFragment())
                     }
-                    2 -> supportActionBar?.title = "Mi carrito"
+                    2 -> {
+                        supportActionBar?.title = "Mi carrito"
+                        cambiarFragmento(CartFragment())
+                    }
+
                 }
             }
             override fun onTabUnselected(p0: TabLayout.Tab?) {}

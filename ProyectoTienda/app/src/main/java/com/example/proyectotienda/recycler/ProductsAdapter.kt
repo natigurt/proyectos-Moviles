@@ -30,7 +30,7 @@ class ProductsAdapter(
 
     override fun getItemCount(): Int = listaProductos.size
 
-    fun actualizarProductos(nuevaLista: List<Product>) {
+    fun updateProducts(nuevaLista: List<Product>) {
         this.listaProductos = nuevaLista
         notifyDataSetChanged()
     }
