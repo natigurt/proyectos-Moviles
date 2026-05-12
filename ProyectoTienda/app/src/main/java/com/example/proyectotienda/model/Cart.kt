@@ -1,6 +1,6 @@
 package com.example.proyectotienda.model
 
-
+//CartResponseDto
 data class Cart (
     val items: List<CartItem>,
     val distinctProducts: Long,

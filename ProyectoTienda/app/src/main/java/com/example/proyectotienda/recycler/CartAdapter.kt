@@ -8,7 +8,7 @@ import com.example.proyectotienda.model.CartItem
 
 class CartAdapter(
     private var items: List<CartItem>,
-    private val onDeleteClick: (CartItem) -> Unit
+    private val onDeleteClick: (Long) -> Unit
 ) : RecyclerView.Adapter<CartViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
@@ -22,8 +22,8 @@ class CartAdapter(
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val item = items[position]
-        holder.bind(item) { clickedItem ->
-            onDeleteClick(clickedItem)
+        holder.bind(item) {
+            onDeleteClick(item.productId)
         }
     }
 

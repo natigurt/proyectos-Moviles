@@ -15,9 +15,6 @@ class ProductDetailViewModel(
 
     private val _productDetail = MutableLiveData<Product?>()
     val productDetail: LiveData<Product?> = _productDetail
-
-    private val _products = MutableLiveData<List<Product>>()
-
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
 

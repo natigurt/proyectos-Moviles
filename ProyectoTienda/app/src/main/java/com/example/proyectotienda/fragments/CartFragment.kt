@@ -43,11 +43,12 @@ class CartFragment : Fragment() {
     private fun configRecyclerView() {
         binding.recyclerCart.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter = CartAdapter(emptyList()) { item ->
+        adapter = CartAdapter(emptyList()) { productId ->
             val token = obtenerToken()
             if (token.isNotEmpty()) {
-                if (item.id != 0L) {
-                    viewModel.deleteItemFromCart(token, item.id)
+                // eliminar prod del carrito
+                if (productId != 0L) {
+                    viewModel.deleteItemFromCart(token, productId)
                 } else {
                     Toast.makeText(requireContext(), "Error: ID de producto nulo", Toast.LENGTH_SHORT).show()
                 }

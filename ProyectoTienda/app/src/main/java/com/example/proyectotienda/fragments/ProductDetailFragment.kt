@@ -58,14 +58,6 @@ class ProductDetailFragment : Fragment() {
                 mostrarProducto(product)
             }
         }
-
-        // observar cambios en el carrito
-        cartViewModel.cart.observe(viewLifecycleOwner) { cart ->
-            if (cart != null) {
-                Toast.makeText(requireContext(), "Añadido al carrito!", Toast.LENGTH_SHORT).show()
-            }
-        }
-
         // Observar errores
         cartViewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             if (error != null) {
@@ -84,9 +76,9 @@ class ProductDetailFragment : Fragment() {
         binding.btnAddToCart.setOnClickListener {
             val product = currentProduct
             val token = obtenerToken()
-
             if (product != null && token.isNotEmpty()) {
                 cartViewModel.addItemToCart(token, product.id, 1)
+                Toast.makeText(requireContext(), "Añadido al carrito!", Toast.LENGTH_SHORT).show()
             }
         }
     }
